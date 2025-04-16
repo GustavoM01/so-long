@@ -5,47 +5,54 @@
 #                                                     +:+ +:+         +:+      #
 #    By: gmaldona <gmaldona@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/16 11:00:46 by gmaldona          #+#    #+#              #
-#    Updated: 2025/04/16 18:13:40 by gmaldona         ###   ########.fr        #
+#    Created: 2022/07/24 13:22:11 by gmaldona          #+#    #+#              #
+#    Updated: 2025/04/16 18:02:13 by gmaldona         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+SRCS = ft_printf.c ph_reader.c ph_writer.c
 
-SRCS := so_long.c
+OBJS = $(SRCS:.c=.o)
 
-OBJS := $(SRCS:.c=.o)
+NAME = ft_printf.a 
 
-NAME := so_long.a
+LIBFT = libft.a
 
-FT_PRINTF := ft_printf.a
+CC = cc
 
-CC := cc
+CFLAGS = -Wall -Werror -Wextra
 
-CFLAGS := -Wall -Wextra -Werror
+AR = ar -rcs
 
 ARRU = ar -ru
 
 RM = rm -f
 
+PARENT_LIB = so_long.a
+
 $(NAME): 	$(OBJS)
-			$(MAKE) -C ./ft_printf aux
-			$(ARRU) $(NAME) $(OBJS) 
+		$(MAKE) -C ./libft aux
+		$(ARRU) $(NAME) $(OBJS) 
 		
 
 all:
-			make $(NAME)
+		make $(NAME)
 
 clean: 
-			$(RM) $(OBJS)
-			cd ./ft_printf && $(MAKE) clean
+		$(RM) $(OBJS)
+		cd ./libft && $(MAKE) clean
 
 fclean:		clean
-			$(RM) $(NAME)
-			cd ./ft_printf && $(MAKE) fclean
+		$(RM) $(NAME)
+		cd ./libft && $(MAKE) fclean
 
-re:			fclean all
+re:		fclean all
+
+aux:		$(OBJS)	
+		make $(NAME)
+		cp $(NAME) ./../$(PARENT_LIB)
 
 bonus:
-			make $(NAME)
+		make $(NAME)
 		
-.PHONY: 	all clean fclean re bonus
+.PHONY: all clean fclean re bonus
